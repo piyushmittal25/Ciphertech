@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from mainapp.forms import TeamInfoForm,TeamUserForm
 from django.http import HttpResponseRedirect
-from datetime import datetime
+from datetime import datetime,timedelta,timezone
 from mainapp.models import teaminfo
 from mainapp import models
 # Create your views here.
@@ -52,8 +52,9 @@ def LogInView(request):
             if team.is_active:
                 login(request,team)
                 teaminfoObject=models.teaminfo.objects.get(team = team)
-                teaminfoObject.start_time=datetime.now()
-                teaminfoObject.save()
+                if teaminfoObject.start_time == None:
+                    teaminfoObject.start_time=datetime.now()
+                    teaminfoObject.save()
                 return render(request,'mainapp/questionslist.html')
             else:
                 content_dic={'error':'You are a Inactive User Contact Admin'}
@@ -67,10 +68,344 @@ def LogInView(request):
 def QuestionListView(request):
     return render(request,'mainapp/questionslist.html')
 
-#####Question View
+######### Question1 View
+@login_required
+def Question1View(request):
+    team_profile=models.teaminfo.objects.get(team = request.user)
+    questioninfo=models.question.objects.get(pk=1)
+    resultant_string=""
+    valueinbox=""
+    timeup=False
+    disable_part=False
+    if team_profile.ques1_part1_score==0:
+        part1_complete=False
+    else:
+        part1_complete=True
 
-# @login_required
-# def Question1View(request):
-#     if request.method == 'POST':
+    ###
+    total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
+    if total_time_afterstarting.total_seconds() > 300:
+        timeup=True
+    #print(total_time_afterstarting.total_seconds())
+    ###
+    if not timeup:
+        if request.method == 'POST':
+            answer_get=request.POST.get('answer')
+            if not part1_complete:
+                if  questioninfo.ans_part1 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques1_part1_score = questioninfo.score_part1
+                    team_profile.totalscore+=questioninfo.score_part1
+                    team_profile.save()
+                    part1_complete=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+            else:
+                if  questioninfo.ans_part2 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques1_part2_score = questioninfo.score_part2
+                    team_profile.totalscore+=questioninfo.score_part2
+                    team_profile.save()
+                    resultant_string="Right Answer!!!"
+                    disable_part=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
 
-######
+        if  team_profile.ques1_part2_score!=0:
+            disable_part=True
+            resultant_string= "Question Completed"
+    else:
+        disable_part=True
+        resultant_string="---------Time up-----------"
+    content_dic={"result":resultant_string,'disabling':disable_part,'boxvalue':valueinbox,'part1complete':part1_complete}
+    return render(request,'mainapp/questions/question1.html',context=content_dic)
+##################################
+
+########Question2
+@login_required
+def Question2View(request):
+    team_profile=models.teaminfo.objects.get(team = request.user)
+    questioninfo=models.question.objects.get(pk=2)
+    resultant_string=""
+    valueinbox=""
+    timeup=False
+    disable_part=False
+    if team_profile.ques2_part1_score==0:
+        part1_complete=False
+    else:
+        part1_complete=True
+
+    ###
+    total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
+    if total_time_afterstarting.total_seconds() > 300:
+        timeup=True
+    #print(total_time_afterstarting.total_seconds())
+    ###
+    if not timeup:
+        if request.method == 'POST':
+            answer_get=request.POST.get('answer')
+            if not part1_complete:
+                if  questioninfo.ans_part1 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques2_part1_score = questioninfo.score_part1
+                    team_profile.totalscore+=questioninfo.score_part1
+                    team_profile.save()
+                    part1_complete=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+            else:
+                if  questioninfo.ans_part2 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques2_part2_score = questioninfo.score_part2
+                    team_profile.totalscore+=questioninfo.score_part2
+                    team_profile.save()
+                    resultant_string="Right Answer!!!"
+                    disable_part=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+
+        if  team_profile.ques2_part2_score!=0:
+            disable_part=True
+            resultant_string= "Question Completed"
+    else:
+        disable_part=True
+        resultant_string="---------Time up-----------"
+    content_dic={"result":resultant_string,'disabling':disable_part,'boxvalue':valueinbox,'part1complete':part1_complete}
+    return render(request,'mainapp/questions/question2.html',context=content_dic)
+##################################
+
+###########Question3
+@login_required
+def Question3View(request):
+    team_profile=models.teaminfo.objects.get(team = request.user)
+    questioninfo=models.question.objects.get(pk=3)
+    resultant_string=""
+    valueinbox=""
+    timeup=False
+    disable_part=False
+    if team_profile.ques3_part1_score==0:
+        part1_complete=False
+    else:
+        part1_complete=True
+
+    ###
+    total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
+    if total_time_afterstarting.total_seconds() > 300:
+        timeup=True
+    print(total_time_afterstarting.total_seconds())
+    ###
+    if not timeup:
+        if request.method == 'POST':
+            answer_get=request.POST.get('answer')
+            if not part1_complete:
+                if  questioninfo.ans_part1 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques3_part1_score = questioninfo.score_part1
+                    team_profile.totalscore+=questioninfo.score_part1
+                    team_profile.save()
+                    part1_complete=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+            else:
+                if  questioninfo.ans_part2 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques3_part2_score = questioninfo.score_part2
+                    team_profile.totalscore+=questioninfo.score_part2
+                    team_profile.save()
+                    resultant_string="Right Answer!!!"
+                    disable_part=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+
+        if  team_profile.ques3_part2_score!=0:
+            disable_part=True
+            resultant_string= "Question Completed"
+    else:
+        disable_part=True
+        resultant_string="---------Time up-----------"
+    content_dic={"result":resultant_string,'disabling':disable_part,'boxvalue':valueinbox,'part1complete':part1_complete}
+    return render(request,'mainapp/questions/question3.html',context=content_dic)
+##################################
+
+###########Question4
+@login_required
+def Question4View(request):
+    team_profile=models.teaminfo.objects.get(team = request.user)
+    questioninfo=models.question.objects.get(pk=4)
+    resultant_string=""
+    valueinbox=""
+    timeup=False
+    disable_part=False
+    if team_profile.ques4_part1_score==0:
+        part1_complete=False
+    else:
+        part1_complete=True
+
+    ###
+    total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
+    if total_time_afterstarting.total_seconds() > 300:
+        timeup=True
+    print(total_time_afterstarting.total_seconds())
+    ###
+    if not timeup:
+        if request.method == 'POST':
+            answer_get=request.POST.get('answer')
+            if not part1_complete:
+                if  questioninfo.ans_part1 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques4_part1_score = questioninfo.score_part1
+                    team_profile.totalscore+=questioninfo.score_part1
+                    team_profile.save()
+                    part1_complete=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+            else:
+                if  questioninfo.ans_part2 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques4_part2_score = questioninfo.score_part2
+                    team_profile.totalscore+=questioninfo.score_part2
+                    team_profile.save()
+                    resultant_string="Right Answer!!!"
+                    disable_part=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+
+        if  team_profile.ques4_part2_score!=0:
+            disable_part=True
+            resultant_string= "Question Completed"
+    else:
+        disable_part=True
+        resultant_string="---------Time up-----------"
+    content_dic={"result":resultant_string,'disabling':disable_part,'boxvalue':valueinbox,'part1complete':part1_complete}
+    return render(request,'mainapp/questions/question4.html',context=content_dic)
+##############
+
+#########################QUESTION5
+@login_required
+def Question5View(request):
+    team_profile=models.teaminfo.objects.get(team = request.user)
+    questioninfo=models.question.objects.get(pk=5)
+    resultant_string=""
+    valueinbox=""
+    timeup=False
+    disable_part=False
+    if team_profile.ques5_part1_score==0:
+        part1_complete=False
+    else:
+        part1_complete=True
+
+    ###
+    total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
+    if total_time_afterstarting.total_seconds() > 300:
+        timeup=True
+    print(total_time_afterstarting.total_seconds())
+    ###
+    if not timeup:
+        if request.method == 'POST':
+            answer_get=request.POST.get('answer')
+            if not part1_complete:
+                if  questioninfo.ans_part1 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques5_part1_score = questioninfo.score_part1
+                    team_profile.totalscore+=questioninfo.score_part1
+                    team_profile.save()
+                    part1_complete=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+            else:
+                if  questioninfo.ans_part2 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques5_part2_score = questioninfo.score_part2
+                    team_profile.totalscore+=questioninfo.score_part2
+                    team_profile.save()
+                    resultant_string="Right Answer!!!"
+                    disable_part=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+
+        if  team_profile.ques5_part2_score!=0:
+            disable_part=True
+            resultant_string= "Question Completed"
+    else:
+        disable_part=True
+        resultant_string="---------Time up-----------"
+    content_dic={"result":resultant_string,'disabling':disable_part,'boxvalue':valueinbox,'part1complete':part1_complete}
+    return render(request,'mainapp/questions/question5.html',context=content_dic)
+#######
+
+###################Question 6
+@login_required
+def Question6View(request):
+    team_profile=models.teaminfo.objects.get(team = request.user)
+    questioninfo=models.question.objects.get(pk=6)
+    resultant_string=""
+    valueinbox=""
+    timeup=False
+    disable_part=False
+    if team_profile.ques6_part1_score==0:
+        part1_complete=False
+    else:
+        part1_complete=True
+
+    ###
+    total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
+    if total_time_afterstarting.total_seconds() > 300:
+        timeup=True
+    print(total_time_afterstarting.total_seconds())
+    ###
+    if not timeup:
+        if request.method == 'POST':
+            answer_get=request.POST.get('answer')
+            if not part1_complete:
+                if  questioninfo.ans_part1 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques6_part1_score = questioninfo.score_part1
+                    team_profile.totalscore+=questioninfo.score_part1
+                    team_profile.save()
+                    part1_complete=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+            else:
+                if  questioninfo.ans_part2 == answer_get:
+                    team_profile.last_submit_time = datetime.now(timezone.utc)
+                    team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
+                    team_profile.ques6_part2_score = questioninfo.score_part2
+                    team_profile.totalscore+=questioninfo.score_part2
+                    team_profile.save()
+                    resultant_string="Right Answer!!!"
+                    disable_part=True
+                else:
+                    #valueinbox = answer_get
+                    resultant_string="Wrong Answer!!!"
+
+        if  team_profile.ques6_part2_score!=0:
+            disable_part=True
+            resultant_string= "Question Completed"
+    else:
+        disable_part=True
+        resultant_string="---------Time up-----------"
+    content_dic={"result":resultant_string,'disabling':disable_part,'boxvalue':valueinbox,'part1complete':part1_complete}
+    return render(request,'mainapp/questions/question6.html',context=content_dic)
+#############
