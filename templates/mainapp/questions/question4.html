@@ -1,14 +1,17 @@
 {% extends "mainapp/questions/basic.html" %}
+{% load staticfiles %}
 {% block body_block %}
-  <div class="container">
-      <h1>Question4</h1>
-    <div class="jumbotron">
+  <div class="container" style="margin-top:4%">
+      <center><h1>Question 4</h1></center>
       {% if not part1complete %}
-      <h2>Part1</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <h2>Task 1</h2>
+      <p>Rearrange the letters</p>
+	    <p>O O U S W T D N E J R</p>
+	     <p>to spell just one word</p>
       {% else %}
-      <h2>Part2</h2>
-      <p>sjkbfjsdbfmdsbfsmnbfmmnsdmfnnbdmnmsnbf</p>
+      <h2>Task 2</h2>
+      <p>Can you decode this picture and tell me what it says ?</p>
+      <img src="{% static "images/delicious.jpg" %}"></image>
       {% endif %}
       <form class="form-group"  method="post">
         {% csrf_token %}
@@ -22,6 +25,6 @@
         {% endif %}
         <h2>{{ result }}</h2>
       </form>
-    </div>
+      <center><a class="btn btn-primary" target="_blank" href="{% url "mainapp:bonuspage" %}">Bonus</a></center>
   </div>
 {% endblock %}

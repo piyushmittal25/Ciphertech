@@ -8,8 +8,14 @@ from django.dispatch import receiver
 class teaminfo(models.Model):
      team=models.OneToOneField(User,on_delete=models.CASCADE)
 
-     member1=models.CharField(max_length=256)
-     member2=models.CharField(max_length=256,blank=True)
+     member1_name=models.CharField(max_length=256)
+     member1_rollno=models.PositiveIntegerField()
+     member1_phone=models.PositiveIntegerField()
+     member1_branch=models.CharField(max_length=256)
+     member2_name=models.CharField(max_length=256)
+     member2_rollno=models.PositiveIntegerField()
+     member2_phone=models.PositiveIntegerField()
+     member2_branch=models.CharField(max_length=256)
      collegename=models.CharField(max_length=256)
      start_time = models.DateTimeField(default=None,null=True, blank=True)
      totalscore=models.PositiveIntegerField(default=0,blank=True)

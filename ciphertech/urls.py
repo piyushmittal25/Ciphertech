@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',views.startpage,name='startpage'),
     url(r'^registration$',views.SignUpView,name='signup'),
+    url(r'^termsandcondition/',views.termspage,name="terms"),
     url(r'^ciphertech/',include('mainapp.urls')),
 ]

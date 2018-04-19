@@ -14,4 +14,5 @@ urlpatterns=[
     url(r'^question4/$',views.Question4View,name="question4"),
     url(r'^question5/$',views.Question5View,name="question5"),
     url(r'^question6/$',views.Question6View,name="question6"),
+    url(r'^bonus/$',views.boonunspageview,name="bonuspage"),
 ]

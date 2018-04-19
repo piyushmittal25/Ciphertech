@@ -13,6 +13,9 @@ from django.contrib.auth.decorators import login_required
 def startpage(request):
     return render(request,'mainapp/startpage.html')
 
+def termspage(request):
+    return render(request,'mainapp/terms.html')
+
 def SignUpView(request):
     if request.method=='POST':
         TeamLoginInfoForm=TeamUserForm(data=request.POST)
@@ -68,7 +71,23 @@ def LogInView(request):
 def QuestionListView(request):
     return render(request,'mainapp/questionslist.html')
 
-######### Question1 View
+######bonus Page
+@login_required
+def boonunspageview(request):
+    bonus_string=""
+    resultant_string=""
+    if request.method == 'POST':
+        bonus_ans=request.POST.get('bonus')
+        if bonus_ans=="utopiaofillusion":
+            bonus_string="Stand up and speak loudly \"ciphertech is amaging\" to get bonus of 120 points"
+            resultant_string=""
+        else:
+            resultant_string="You just missed out!"
+    content_dic={"result":resultant_string,'bonus_string':bonus_string}
+    return render(request,'mainapp/questions/bonuspage.html',context=content_dic)
+
+###############
+ ######### Question1 View
 @login_required
 def Question1View(request):
     team_profile=models.teaminfo.objects.get(team = request.user)
@@ -84,7 +103,7 @@ def Question1View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 300:
+    if total_time_afterstarting.total_seconds() > 3600:
         timeup=True
     #print(total_time_afterstarting.total_seconds())
     ###
@@ -141,7 +160,7 @@ def Question2View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 300:
+    if total_time_afterstarting.total_seconds() > 3600:
         timeup=True
     #print(total_time_afterstarting.total_seconds())
     ###
@@ -198,7 +217,7 @@ def Question3View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 300:
+    if total_time_afterstarting.total_seconds() > 3600:
         timeup=True
     print(total_time_afterstarting.total_seconds())
     ###
@@ -255,7 +274,7 @@ def Question4View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 300:
+    if total_time_afterstarting.total_seconds() > 3600:
         timeup=True
     print(total_time_afterstarting.total_seconds())
     ###
@@ -312,7 +331,7 @@ def Question5View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 300:
+    if total_time_afterstarting.total_seconds() > 3600:
         timeup=True
     print(total_time_afterstarting.total_seconds())
     ###
@@ -331,7 +350,7 @@ def Question5View(request):
                     #valueinbox = answer_get
                     resultant_string="Wrong Answer!!!"
             else:
-                if  questioninfo.ans_part2 == answer_get:
+                if  answer_get in list(questioninfo.ans_part2.split()):
                     team_profile.last_submit_time = datetime.now(timezone.utc)
                     team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
                     team_profile.ques5_part2_score = questioninfo.score_part2
@@ -369,7 +388,7 @@ def Question6View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 300:
+    if total_time_afterstarting.total_seconds() > 3600:
         timeup=True
     print(total_time_afterstarting.total_seconds())
     ###
@@ -388,7 +407,7 @@ def Question6View(request):
                     #valueinbox = answer_get
                     resultant_string="Wrong Answer!!!"
             else:
-                if  questioninfo.ans_part2 == answer_get:
+                if  answer_get == questioninfo.ans_part2:
                     team_profile.last_submit_time = datetime.now(timezone.utc)
                     team_profile.total_time= datetime.now(timezone.utc) - team_profile.start_time
                     team_profile.ques6_part2_score = questioninfo.score_part2

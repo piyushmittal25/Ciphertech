@@ -3,9 +3,10 @@ body{
 }
 
 .contentdiv{
-  margin-top: 50px;
+  /*margin-top: 10px;*/
   background-color:white;
-  box-shadow: 5px 20px 20px 5px;
+  /*box-shadow: 5px 20px 20px 5px;*/
+  margin-bottom: 5%;
 }
 
 .container{

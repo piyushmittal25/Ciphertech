@@ -5,11 +5,18 @@
   th,td{
     width:200px;
   }
+  .contentdiv{
+    background-color: black;
+    color:#20C20E;
+  }
+  thead{
+    color:white;
+  }
 </style>
 {% endblock %}
 
 {% block body_block %}
-  <center><h1>Leaderboard</h1><center>
+  <center><h1 style="color:white">Leaderboard</h1><center>
   {% if teamlist %}
   <table>
     <thead>

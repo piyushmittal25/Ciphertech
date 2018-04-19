@@ -12,9 +12,15 @@ class TeamUserForm(forms.ModelForm):
 class TeamInfoForm(forms.ModelForm):
     class Meta():
         model=teaminfo
-        fields=('member1','member2','collegename')
+        fields=('member1_name','member1_rollno','member1_phone','member1_branch','member2_name','member2_rollno','member2_phone','member2_branch','collegename')
         labels={
-                'member1':'Member1 Name',
-                'member2':'Member2 Name',
+                'member1_name':'Member1 Name',
+                'member1_rollno':"Member1 Roll No.",
+                'member1_phone':"Member1 Phone No.",
+                'member1_branch':"Member1 Branch",
+                'member2_name':'Member2 Name',
+                'member2_rollno':"Member2 Roll No.",
+                'member2_phone':"Member2 Phone No.",
+                'member2_branch':"Member2 Branch",
                 'collegename':'College Name',
                 }
