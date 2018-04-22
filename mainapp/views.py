@@ -10,6 +10,10 @@ from django.contrib.auth import authenticate,login,logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 #####
+
+test_duration_time=3600 #This variable stores the time duration of competetion in sec.
+
+####
 def startpage(request):
     return render(request,'mainapp/startpage.html')
 
@@ -103,7 +107,7 @@ def Question1View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 3600:
+    if total_time_afterstarting.total_seconds() >test_duration_time:
         timeup=True
     #print(total_time_afterstarting.total_seconds())
     ###
@@ -160,7 +164,7 @@ def Question2View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 3600:
+    if total_time_afterstarting.total_seconds() > test_duration_time:
         timeup=True
     #print(total_time_afterstarting.total_seconds())
     ###
@@ -217,7 +221,7 @@ def Question3View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 3600:
+    if total_time_afterstarting.total_seconds() > test_duration_time:
         timeup=True
     print(total_time_afterstarting.total_seconds())
     ###
@@ -274,7 +278,7 @@ def Question4View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 3600:
+    if total_time_afterstarting.total_seconds() > test_duration_time:
         timeup=True
     print(total_time_afterstarting.total_seconds())
     ###
@@ -331,7 +335,7 @@ def Question5View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 3600:
+    if total_time_afterstarting.total_seconds() > test_duration_time:
         timeup=True
     print(total_time_afterstarting.total_seconds())
     ###
@@ -388,7 +392,7 @@ def Question6View(request):
 
     ###
     total_time_afterstarting= datetime.now(timezone.utc) - team_profile.start_time
-    if total_time_afterstarting.total_seconds() > 3600:
+    if total_time_afterstarting.total_seconds() >test_duration_time:
         timeup=True
     print(total_time_afterstarting.total_seconds())
     ###
